@@ -26,4 +26,7 @@ public abstract class CoreConfigs extends LibConfigs {
         }
     }
 
+    public float getDensity() {
+        return 360f;
+    }
 }
