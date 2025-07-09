@@ -1,4 +1,4 @@
-package com.codingtu.cooltu.processor;
+package com.codingtu.cooltu.processor.config;
 
 import com.google.auto.service.AutoService;
 
