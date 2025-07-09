@@ -425,4 +425,71 @@ public class StringEs extends CoreEs<String, StringEs> {
     public String nearDataWhenPrePriorityBySymbol(String symbol) {
         return super.nearDataWhenPrePriorityBySymbol(symbol);
     }
+
+    ///////////////////////////////////////////////////////
+    //
+    // toString
+    //
+    ///////////////////////////////////////////////////////
+    public static class ToLine {
+        private String divider = ", ";
+        private String prefix = "";
+        private String suffix = "";
+        private StringEs stringEs;
+        private boolean allowNull;
+
+        public ToLine(StringEs stringEs) {
+            this.stringEs = stringEs;
+        }
+
+        public ToLine divider(String divider) {
+            this.divider = divider;
+            return this;
+        }
+
+        public ToLine prefix(String prefix) {
+            this.prefix = prefix;
+            return this;
+        }
+
+        public ToLine suffix(String suffix) {
+            this.suffix = suffix;
+            return this;
+        }
+
+        public ToLine allowNull() {
+            this.allowNull = true;
+            return this;
+        }
+
+        public String to() {
+            if (!allowNull && stringEs.isNull()) {
+                return "";
+            }
+
+            StringBuilder sb = new StringBuilder();
+            sb.append(prefix);
+            stringEs.ls(new Es.EachEs<String>() {
+                @Override
+                public boolean each(int position, String s) {
+                    if (position != 0) {
+                        sb.append(divider);
+                    }
+                    sb.append(s);
+                    return false;
+                }
+            });
+            sb.append(suffix);
+            return sb.toString();
+        }
+    }
+
+    public ToLine toLine() {
+        return new ToLine(this);
+    }
+
+    public String toGenericities() {
+        return toLine().prefix("<").suffix(">").to();
+    }
+
 }

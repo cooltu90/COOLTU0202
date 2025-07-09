@@ -12,4 +12,8 @@ public @interface ModuleInfo {
     //默认的R的包名
     String rPkg();
 
+    Class baseActivity() default Void.class;
+
+    Class baseFragment() default Void.class;
+
 }

@@ -1,4 +1,4 @@
-package com.codingtu.cooltu.processor.deal.base;
+package com.codingtu.cooltu.processor.dealer.deal.base;
 
 import com.codingtu.cooltu.lib4j.tool.OtherTool;
 import com.codingtu.cooltu.processor.tool.ElementTool;

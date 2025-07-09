@@ -6,8 +6,8 @@ import com.codingtu.cooltu.lib4j.es.BaseEs;
 import com.codingtu.cooltu.lib4j.es.Es;
 import com.codingtu.cooltu.lib4j.tool.ClassTool;
 import com.codingtu.cooltu.processor.SupportTypes;
-import com.codingtu.cooltu.processor.container.DealerMap;
-import com.codingtu.cooltu.processor.deal.base.BaseDeal;
+import com.codingtu.cooltu.processor.container.BuilderMap;
+import com.codingtu.cooltu.processor.dealer.deal.base.BaseDeal;
 import com.codingtu.cooltu.processor.log.Logs;
 import com.codingtu.cooltu.processor.tool.IdTool;
 import com.google.auto.service.AutoService;
@@ -17,14 +17,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
-import javax.annotation.processing.Messager;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
-import javax.tools.Diagnostic;
 
 @AutoService(Processor.class)
 public class AppProcessor extends AbstractProcessor {
@@ -88,7 +86,7 @@ public class AppProcessor extends AbstractProcessor {
                 }
             });
 
-            DealerMap.create();
+            BuilderMap.create();
         } catch (Exception e) {
             Logs.i(e);
             throw new RuntimeException("报错了");
