@@ -1,0 +1,32 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+}
+
+group = COOLTU_PKG + '.' + COOLTU_PKG_CONSTANT
+version = COOLTU_VERSION
+
+task generateSourcesJar(type: Jar) {
+    from java.sourceSets.main.java.srcDirs
+    classifier 'sources'
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            // Creates a Maven publication called "release".
+            release(MavenPublication) {
+                from components.java
+                groupId = COOLTU_PKG + '.' + COOLTU_PKG_CONSTANT
+                artifactId = COOLTU + '_' + COOLTU_MODULE_CONSTANT
+                version = COOLTU_VERSION
+                artifact generateSourcesJar
+            }
+        }
+    }
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}

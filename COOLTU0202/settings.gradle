@@ -1,16 +1,39 @@
 pluginManagement {
     repositories {
+        maven{ url = "https://maven.aliyun.com/repository/public" }
+        maven { url 'https://maven.aliyun.com/repository/releases'; }
+        maven { url 'https://maven.aliyun.com/repository/jcenter'; }
+        maven { url 'https://maven.aliyun.com/repository/google'; }
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin'; }
+        maven { url 'https://mirrors.huaweicloud.com/repository/maven/' }
+        maven { url "https://www.jitpack.io" }
         gradlePluginPortal()
         google()
+        jcenter()
         mavenCentral()
     }
 }
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
+        maven{ url = "https://maven.aliyun.com/repository/public/" }
+        maven { url 'https://maven.aliyun.com/repository/releases'; }
+        maven { url 'https://maven.aliyun.com/repository/jcenter'; }
+        maven { url 'https://maven.aliyun.com/repository/google'; }
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin'; }
+        maven { url 'https://mirrors.huaweicloud.com/repository/maven/' }
+        maven { url "https://www.jitpack.io" }
         google()
+        jcenter()
         mavenCentral()
     }
 }
 rootProject.name = "COOLTU0202"
 include ':app'
+include ':applib'
+include ':cooltu_constant'
+include ':cooltu_cryption'
+include ':cooltu_lib4j'
+include ':cooltu_lib4a'
+include ':cooltu_processor'
+include ':cooltu_processor_annotation'

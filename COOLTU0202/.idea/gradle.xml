@@ -10,6 +10,13 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/applib" />
+            <option value="$PROJECT_DIR$/cooltu_constant" />
+            <option value="$PROJECT_DIR$/cooltu_cryption" />
+            <option value="$PROJECT_DIR$/cooltu_lib4a" />
+            <option value="$PROJECT_DIR$/cooltu_lib4j" />
+            <option value="$PROJECT_DIR$/cooltu_processor" />
+            <option value="$PROJECT_DIR$/cooltu_processor_annotation" />
           </set>
         </option>
       </GradleProjectSettings>
