@@ -3,18 +3,21 @@ package com.codingtu.cooltu.processor.config;
 import com.codingtu.cooltu.lib4j.config.LibConfigs;
 
 import javax.annotation.processing.Messager;
+import javax.annotation.processing.ProcessingEnvironment;
 import javax.tools.Diagnostic;
 
 public class Configs extends LibConfigs {
 
     private final Messager messager;
+    private final ProcessingEnvironment processingEnv;
 
-    public Configs(Messager messager) {
-        this.messager = messager;
+    public Configs(ProcessingEnvironment processingEnv) {
+        this.processingEnv = processingEnv;
+        this.messager = processingEnv.getMessager();
     }
 
-    public static void init(Messager messager) {
-        configs(new Configs(messager));
+    public static void init(ProcessingEnvironment processingEnv) {
+        configs(new Configs(processingEnv));
     }
 
     public static Configs configs() {
