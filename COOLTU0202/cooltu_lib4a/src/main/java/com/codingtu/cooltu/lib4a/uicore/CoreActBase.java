@@ -1,12 +1,15 @@
 package com.codingtu.cooltu.lib4a.uicore;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.view.KeyEvent;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
 import com.codingtu.cooltu.lib4a.permission.PermissionBack;
 import com.codingtu.cooltu.lib4a.tool.ScreenAdaptationTool;
 import com.codingtu.cooltu.lib4a.tool.StatusBarTool;
+import com.codingtu.cooltu.lib4a.tool.ToastTool;
 import com.codingtu.cooltu.lib4a.tool.ViewTool;
 import com.codingtu.cooltu.lib4j.destory.OnDestroy;
 import com.codingtu.cooltu.lib4j.es.Es;
@@ -120,5 +123,104 @@ public class CoreActBase {
         coreUi.beforeFinish();
         coreUi.superFinish();
         coreUi.afterFinish();
+    }
+
+    ///////////////////////////////////////////////////////
+    //
+    // toast
+    //
+    ///////////////////////////////////////////////////////
+    public void toast(String str) {
+        ToastTool.toast(str);
+    }
+
+    ///////////////////////////////////////////////////////
+    //
+    // WhenKeyDown
+    //
+    ///////////////////////////////////////////////////////
+    protected List<WhenKeyDown> whenKeyDowns;
+
+    protected List<WhenKeyDown> getWhenKeyDowns() {
+        if (whenKeyDowns == null)
+            whenKeyDowns = new ArrayList<WhenKeyDown>();
+        return whenKeyDowns;
+    }
+
+    public void addWhenKeyDown(WhenKeyDown whenKeyDown) {
+        getWhenKeyDowns().add(whenKeyDown);
+    }
+
+    public void removeWhenKeyDown(WhenKeyDown whenKeyDown) {
+        getWhenKeyDowns().remove(whenKeyDown);
+    }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        final boolean[] b = {false};
+        List<WhenKeyDown> whenKeyDowns = getWhenKeyDowns();
+        Es.es(whenKeyDowns).ls(new Es.EachEs<WhenKeyDown>() {
+            @Override
+            public boolean each(int position, WhenKeyDown whenKeyDown) {
+                if (whenKeyDown.onKeyDown(keyCode, event)) {
+                    b[0] = true;
+                }
+                return false;
+            }
+        });
+        return b[0];
+    }
+
+    public void forbidKeyBack() {
+        addWhenKeyDown(new WhenBackKeyDown() {
+            @Override
+            public boolean onBack(KeyEvent event) {
+                return true;
+            }
+        });
+    }
+
+    ///////////////////////////////////////////////////////
+    //
+    // setResultOk
+    //
+    ///////////////////////////////////////////////////////
+
+    public void setResultOk(CoreActInterface coreActInterface) {
+        coreActInterface.getAct().setResult(Activity.RESULT_OK);
+    }
+
+    public void setResultOk(CoreActInterface coreActInterface, Intent data) {
+        coreActInterface.getAct().setResult(Activity.RESULT_OK, data);
+    }
+
+    ///////////////////////////////////////////////////////
+    //
+    //
+    //
+    ///////////////////////////////////////////////////////
+    protected List<OnActBack> onActBacks;
+
+    public List<OnActBack> getOnActBacks() {
+        if (onActBacks == null)
+            onActBacks = new ArrayList<OnActBack>();
+        return onActBacks;
+    }
+
+    public void addOnActBack(OnActBack onActBack) {
+        getOnActBacks().add(onActBack);
+    }
+
+    public void removeOnActBack(OnActBack onActBack) {
+        getOnActBacks().remove(onActBack);
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Es.es(getOnActBacks()).ls(new Es.EachEs<OnActBack>() {
+            @Override
+            public boolean each(int position, OnActBack back) {
+                back.onActivityResult(requestCode, resultCode, data);
+                return false;
+            }
+        });
     }
 }

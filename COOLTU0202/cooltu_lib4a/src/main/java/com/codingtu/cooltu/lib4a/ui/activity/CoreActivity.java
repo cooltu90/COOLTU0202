@@ -1,7 +1,9 @@
 package com.codingtu.cooltu.lib4a.ui.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -147,5 +149,54 @@ public class CoreActivity extends AppCompatActivity implements CoreActInterface 
     public void afterFinish() {
 
     }
+
+    ///////////////////////////////////////////////////////
+    //
+    // toast
+    //
+    ///////////////////////////////////////////////////////
+
+    @Override
+    public void toast(String str) {
+        getBase().toast(str);
+    }
+
+    ///////////////////////////////////////////////////////
+    //
+    // whenkeydown
+    //
+    ///////////////////////////////////////////////////////
+    @Override
+    public void forbidKeyBack() {
+        getBase().forbidKeyBack();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        boolean b = getBase().onKeyDown(keyCode, event);
+        return b ? b : super.onKeyDown(keyCode, event);
+    }
+
+    ///////////////////////////////////////////////////////
+    //
+    // actback
+    //
+    ///////////////////////////////////////////////////////
+    @Override
+    public void setResultOk() {
+        getBase().setResultOk(this);
+    }
+
+    @Override
+    public void setResultOk(Intent data) {
+        getBase().setResultOk(this, data);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        getBase().onActivityResult(requestCode, resultCode, data);
+    }
+
 
 }
