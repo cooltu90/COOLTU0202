@@ -1,7 +1,7 @@
 package com.codingtu.cooltu.lib4j.file.delete;
 
-import com.codingtu.cooltu.lib4j.callback.OnProgress;
-import com.codingtu.cooltu.lib4j.callback.callback.OnCallBack;
+import com.codingtu.cooltu.lib4j.callback.OnCallBack;
+import com.codingtu.cooltu.lib4j.data.progress.Progress;
 import com.codingtu.cooltu.lib4j.file.FileTool;
 
 import java.io.File;
@@ -9,9 +9,9 @@ import java.io.File;
 public class FileDeleter {
 
     private File deleteFile;
-    private OnProgress onProgress;
-    private OnCallBack onFinish;
-    private OnCallBack onStart;
+    private OnCallBack.P1<Progress> onProgress;
+    private OnCallBack.P0 onFinish;
+    private OnCallBack.P0 onStart;
     private long totalLen;
     private long currentLen;
 
@@ -25,17 +25,17 @@ public class FileDeleter {
         return fileDeleter;
     }
 
-    public FileDeleter progress(OnProgress onProgress) {
+    public FileDeleter progress(OnCallBack.P1<Progress> onProgress) {
         this.onProgress = onProgress;
         return this;
     }
 
-    public FileDeleter finish(OnCallBack onFinish) {
+    public FileDeleter finish(OnCallBack.P0 onFinish) {
         this.onFinish = onFinish;
         return this;
     }
 
-    public FileDeleter start(OnCallBack onStart) {
+    public FileDeleter start(OnCallBack.P0 onStart) {
         this.onStart = onStart;
         return this;
     }
@@ -73,7 +73,7 @@ public class FileDeleter {
 
     private void onProgress(long currentLen) {
         if (this.onProgress != null) {
-            this.onProgress.onProgress(totalLen, currentLen);
+            this.onProgress.onCallBack(new Progress(totalLen, currentLen));
         }
     }
 

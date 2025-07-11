@@ -1,7 +1,7 @@
 package com.codingtu.cooltu.lib4j.file.copy;
 
-import com.codingtu.cooltu.lib4j.callback.OnProgress;
-import com.codingtu.cooltu.lib4j.callback.callback.OnCallBack;
+import com.codingtu.cooltu.lib4j.callback.OnCallBack;
+import com.codingtu.cooltu.lib4j.data.progress.Progress;
 import com.codingtu.cooltu.lib4j.exception.FileCopyException;
 import com.codingtu.cooltu.lib4j.file.FileTool;
 import com.codingtu.cooltu.lib4j.tool.CountTool;
@@ -21,9 +21,9 @@ public class FileCopy {
     private boolean force;
     private String targetPath;
     private String srcPath;
-    private OnProgress onProgress;
-    private OnCallBack onFinish;
-    private OnCallBack onStart;
+    private OnCallBack.P1<Progress> onProgress;
+    private OnCallBack.P0 onFinish;
+    private OnCallBack.P0 onStart;
     private long totalLen;
     private long currentLen;
     private long lastTime;
@@ -43,17 +43,17 @@ public class FileCopy {
         return this;
     }
 
-    public FileCopy progress(OnProgress onProgress) {
+    public FileCopy progress(OnCallBack.P1<Progress> onProgress) {
         this.onProgress = onProgress;
         return this;
     }
 
-    public FileCopy finish(OnCallBack onFinish) {
+    public FileCopy finish(OnCallBack.P0 onFinish) {
         this.onFinish = onFinish;
         return this;
     }
 
-    public FileCopy start(OnCallBack onStart) {
+    public FileCopy start(OnCallBack.P0 onStart) {
         this.onStart = onStart;
         return this;
     }
@@ -161,7 +161,7 @@ public class FileCopy {
 
     private void onProgress(long currentLen) {
         if (this.onProgress != null) {
-            this.onProgress.onProgress(totalLen, currentLen);
+            this.onProgress.onCallBack(new Progress(totalLen, currentLen));
         }
     }
 

@@ -201,7 +201,7 @@ public class FileTool {
                 len += obtainTotalLength(files[i], filePass);
             }
         } else {
-            if (filePass != null && filePass.pass(file)) {
+            if (filePass != null && filePass.isPass(file)) {
                 return 0;
             }
             len = file.length();

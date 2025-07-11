@@ -1,0 +1,108 @@
+package com.codingtu.cooltu.lib4j.data.value.xxx;
+
+import com.codingtu.cooltu.lib4j.tool.StringTool;
+
+public class DoubleValue {
+    public Double value;
+
+    public static DoubleValue obtain(double value) {
+        return obtain(Double.valueOf(value));
+    }
+
+    public static DoubleValue obtain(Double value) {
+        DoubleValue boolValue = new DoubleValue();
+        boolValue.value = value;
+        return boolValue;
+    }
+
+    public String toString(int bit, boolean trim) {
+        return toString(value, bit, trim);
+    }
+
+    private String toString(Double num, int bit, boolean trim) {
+        if (bit < 0) {
+            throw new RuntimeException("bit必须大于等于0");
+        }
+        if (num == null
+                || num == 0
+                || num.isInfinite()
+                || !Double.isFinite(num.doubleValue())
+                || num.isNaN()) {
+            if (bit == 0 || trim) {
+                return "0";
+            } else {
+                return "0." + StringTool.repeatString(bit, "0");
+            }
+        }
+
+        boolean isNegative = num < 0;
+        if (isNegative) {
+            num = Double.valueOf(Math.abs(num.doubleValue()));
+        }
+        String absStr = absDoubleToString(num, bit, trim);
+        if (isNegative) {
+            return "-" + absStr;
+        }
+        return absStr;
+    }
+
+    private String absDoubleToString(Double num, int bit, boolean trim) {
+        String numStr = String.valueOf(num);
+        int dotIndex = numStr.indexOf(".");
+        if (dotIndex < 0) {
+            if (bit == 0 || trim) {
+                return numStr;
+            } else {
+                return numStr + "." + StringTool.repeatString(bit, "0");
+            }
+        }
+
+        String zhengshuStr = numStr.substring(0, dotIndex);
+        String xiaoshuStr = numStr.substring(dotIndex + 1);
+
+        int xiaoshuLen = xiaoshuStr.length();
+        if (xiaoshuLen < bit) {
+            if (trim) {
+                return String.valueOf(num);
+            } else {
+                return String.valueOf(num) + StringTool.repeatString(bit - xiaoshuLen, "0");
+            }
+        } else if (xiaoshuLen == bit) {
+            return String.valueOf(num);
+        }
+
+        if (bit == 0) {
+            int zhengshu = Integer.parseInt(zhengshuStr);
+            if (Integer.parseInt(xiaoshuStr.substring(0, 1)) >= 5) {
+                zhengshu += 1;
+            }
+            return String.valueOf(zhengshu);
+        }
+
+        int xiaoshu1 = Integer.parseInt(xiaoshuStr.substring(0, bit));
+        int xiaoshu2 = Integer.parseInt(xiaoshuStr.substring(bit, bit + 1));
+
+        xiaoshuStr = String.valueOf(xiaoshu1);
+        if (xiaoshu2 >= 5) {
+            xiaoshu1 += 1;
+        }
+        String newXiaoshuStr = String.valueOf(xiaoshu1);
+        if (xiaoshuStr.length() == newXiaoshuStr.length()) {
+            xiaoshuStr = newXiaoshuStr;
+        } else {
+            xiaoshuStr = newXiaoshuStr.substring(1);
+            zhengshuStr = String.valueOf(Integer.parseInt(zhengshuStr) + 1);
+        }
+
+        if (trim) {
+            xiaoshuStr = StringTool.trimRight(xiaoshuStr, '0');
+            if (StringTool.isBlank(xiaoshuStr)) {
+                return zhengshuStr;
+            } else {
+                return zhengshuStr + "." + xiaoshuStr;
+            }
+        } else {
+            return zhengshuStr + "." + xiaoshuStr;
+        }
+    }
+}
