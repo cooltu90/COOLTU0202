@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--**********************************************
+    *
+    * 通用
+    *
+    ***********************************************-->
+    <attr name="icon_size" format="dimension" />
+
+    <!--**********************************************
+    *
+    * FloatingButton
+    *
+    ***********************************************-->
+    <declare-styleable name="FloatingButton">
+        <attr name="icon_size" />
+        <attr name="sub_icon_size" format="dimension" />
+        <attr name="icon_padding" format="dimension" />
+        <attr name="icon_margin" format="dimension" />
+        <attr name="text_Padding" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="FloatingSubButton">
+        <attr name="icon_size" />
+        <attr name="icon" format="reference" />
+        <attr name="text" format="string" />
+    </declare-styleable>
+
+    <!--**********************************************
+    *
+    * CoreScaleView
+    *
+    ***********************************************-->
+    <declare-styleable name="CoreScaleView">
+        <attr name="maxScale" format="float" />
+        <attr name="android:background" />
+    </declare-styleable>
+
+    <!--**********************************************
+    *
+    * RoundImageView
+    *
+    ***********************************************-->
+    <declare-styleable name="RoundImageView">
+        <attr name="android:radius" />
+        <attr name="android:topLeftRadius" />
+        <attr name="android:topRightRadius" />
+        <attr name="android:bottomLeftRadius" />
+        <attr name="android:bottomRightRadius" />
+    </declare-styleable>
+
+</resources>

@@ -94,7 +94,7 @@ public class CoreActivity extends AppCompatActivity implements CoreActInterface 
 
 
     @Override
-    public void addOnDestory(OnDestroy onDestroy) {
+    public void addOnDestroy(OnDestroy onDestroy) {
         getBase().addOnDestroy(onDestroy);
     }
 
