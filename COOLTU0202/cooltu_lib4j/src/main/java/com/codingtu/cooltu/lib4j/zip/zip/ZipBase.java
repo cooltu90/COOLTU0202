@@ -6,6 +6,7 @@ import com.codingtu.cooltu.lib4j.data.value.TValue;
 import com.codingtu.cooltu.lib4j.destory.OnDestroy;
 import com.codingtu.cooltu.lib4j.es.Es;
 import com.codingtu.cooltu.lib4j.es.map.BaseMap;
+import com.codingtu.cooltu.lib4j.exception.ZipFailException;
 import com.codingtu.cooltu.lib4j.file.FileTool;
 import com.codingtu.cooltu.lib4j.log.LibLogs;
 import com.codingtu.cooltu.lib4j.path.ZipFile;
@@ -94,6 +95,10 @@ public class ZipBase<THIS extends ZipBase> implements OnDestroy {
                 return false;
             }
         });
+
+        if (zipFile == null) {
+            throw new ZipFailException("未指定压缩包地址");
+        }
 
         if (this.onStart != null) {
             this.onStart.onCallBack();

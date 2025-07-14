@@ -1,12 +1,22 @@
 package com.codingtu.cooltu.lib4j.zip.zip;
 
+import com.codingtu.cooltu.constant.FileType;
 import com.codingtu.cooltu.lib4j.callback.FilePass;
 import com.codingtu.cooltu.lib4j.callback.PathDeal;
+import com.codingtu.cooltu.lib4j.es.Es;
+import com.codingtu.cooltu.lib4j.exception.ZipException;
+import com.codingtu.cooltu.lib4j.exception.ZipFailException;
+import com.codingtu.cooltu.lib4j.file.FileTool;
+import com.codingtu.cooltu.lib4j.log.LibLogs;
 import com.codingtu.cooltu.lib4j.path.ZipFile;
 import com.codingtu.cooltu.lib4j.tool.CountTool;
+import com.codingtu.cooltu.lib4j.tool.StringTool;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.zip.ZipOutputStream;
+
+import sun.jvm.hotspot.oops.FieldType;
 
 public class Zip1 extends ZipBase<Zip1> {
 
@@ -56,16 +66,47 @@ public class Zip1 extends ZipBase<Zip1> {
 
     @Override
     public void zip() {
-
         pathMap = new HashMap<>();
+        if (zipFile == null) {
+            File file = new File(srcFile.getParentFile(), srcFile.getName() + FileType.d_ZIP);
+            zipFile = new ZipFile(file);
+        }
+        if (!zipFile.fileName().endsWith(FileType.d_ZIP)) {
+            throw new ZipFailException("压缩文件后缀名不是zip");
+        }
+        String zipName = StringTool.cutSuffix(zipFile.fileName(), FileType.d_ZIP);
+        xxx(srcFile, zipName, "");
 
-        xxx(srcFile);
-
+        Es.maps(pathMap).ls(new Es.MapEach<String, String>() {
+            @Override
+            public boolean each(String s, String s2) {
+                LibLogs.i("src:" + s + " zip:" + s2);
+                return false;
+            }
+        });
 
         super.zip();
     }
 
-    private void xxx(File file) {
+//    10:05:59.247  I  rootDir:3
+//            10:05:59.247  I  path:3/output_003.mp4
+//10:06:05.519  I  path:3/output_005.mp4
+//10:06:11.121  I  path:3/output_007.mp4
+//10:06:15.447  I  path:3/output_004.mp4
+//10:06:20.494  I  path:3/output_000.mp4
+//10:06:26.297  I  path:2/output_006.mp4
+//10:06:32.004  I  path:2/output_002.mp4
+//10:06:37.609  I  path:2/output_001.mp4
+//10:06:43.045  I  path:2/z_video/record02.mp4
+//10:06:43.453  I  path:2/z_video/record03.mp4
+//10:06:43.825  I  path:2/z_video/record01.mp4
+//10:06:44.237  I  path:2/z_video/record00.mp4
+
+
+//    10:09:07.433  I  rootDir:2
+//            10:09:07.433  I  path:/2.mp4
+
+    private void xxx(File file, String zipName, String parentName) {
         if (filePass.isPass(file)) {
             return;
         }
@@ -75,12 +116,12 @@ public class Zip1 extends ZipBase<Zip1> {
             if (count > 0) {
                 for (int i = 0; i < count; i++) {
                     File file1 = files[i];
-                    xxx(file);
+                    xxx(file1, zipName, StringTool.isBlank(parentName) ? zipName : (parentName + FileTool.addPrexSeparator(file.getName())));
                 }
             }
         } else {
             //加入map
-            //pathMap.put(file.getAbsolutePath(),)
+            pathMap.put(file.getAbsolutePath(), parentName + FileTool.addPrexSeparator(file.getName()));
         }
     }
 }
